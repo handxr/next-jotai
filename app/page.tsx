@@ -1,6 +1,6 @@
 "use client";
 
-import { Provider, atom, useAtom } from "jotai";
+import { Provider, atom, useAtom, createStore } from "jotai";
 
 const countAtom = atom(0);
 
@@ -29,14 +29,23 @@ function Counter() {
   );
 }
 
-function CounterProvider({ children }: { children: React.ReactNode }) {
-  return <Provider>{children}</Provider>;
+function CounterProvider({
+  children,
+  initialValues,
+}: {
+  children: React.ReactNode;
+  initialValues?: number;
+}) {
+  const store = createStore();
+  store.set(countAtom, initialValues || 0);
+
+  return <Provider store={store}>{children}</Provider>;
 }
 
 export default function Home() {
   return (
     <main>
-      <CounterProvider>
+      <CounterProvider initialValues={10}>
         <Counter />
       </CounterProvider>
       <CounterProvider>
