@@ -12,10 +12,23 @@ function IncrementButton() {
 }
 
 function DecrementButton() {
-  const [, setCount] = useAtom(countAtom);
+  const [count, setCount] = useAtom(countAtom);
   return (
-    <button onClick={() => setCount((prevCount) => prevCount - 1)}>-</button>
+    <button
+      onClick={() =>
+        count > 0
+          ? setCount((prevCount) => prevCount - 1)
+          : alert("Count can't be less than 0")
+      }
+    >
+      -
+    </button>
   );
+}
+
+function ResetButton() {
+  const [, setCount] = useAtom(countAtom);
+  return <button onClick={() => setCount(0)}>reset</button>;
 }
 
 function Counter() {
@@ -25,6 +38,7 @@ function Counter() {
       <div>count: {count}</div>
       <IncrementButton />
       <DecrementButton />
+      <ResetButton />
     </>
   );
 }
